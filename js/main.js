@@ -18,11 +18,30 @@ scene.add( light );
 camera.position.z = 5;
 
 const loader = new THREE.GLTFLoader();
-loader.load("../models/scene.gltf", function(gltf) {
-    scene.add( gltf.scene );
-    gltf.scene.scale.set(.4, .4, .4);
-    gltf.scene.position.set(0, -1, 0);
-})
+
+class Doll {
+    constructor() {
+        loader.load("../models/scene.gltf", (gltf) => {
+            scene.add( gltf.scene );
+            gltf.scene.scale.set(.4, .4, .4);
+            gltf.scene.position.set(0, -1, 0);
+            this.doll = gltf.scene;
+        })
+    }
+
+    lookBackward() {
+        this.doll.rotation.y = -3.15
+    }
+
+    lookForward() {
+        this.doll.rotation.y = 0
+    }
+}
+
+let doll = new Doll()
+setTimeout(() => {
+    doll.lookBackward()
+}, 1000);
 
 function animate() {
 	requestAnimationFrame( animate );
