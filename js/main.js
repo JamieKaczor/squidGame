@@ -97,11 +97,11 @@ class Player {
 
     check() {
         if(this.playerInfo.velocity > 0 && !isLookingBackward){
-            console.log("You lose!")
+            text.innerText = "You lose!"
             gameStat = "over"
         }
         if(this.playerInfo.positionX < end_position + .4) {
-            console.log("You win!")
+            text.innerText = "You win!"
             gameStat = "over"
         }
     }
@@ -134,11 +134,18 @@ function startGame() {
     progressBar.position.y = 3.35
     gsap.to(progressBar.scale, {x: 0, duration: TIME_LIMIT, ease: "none"})
     doll.start()
+    setTimeout(() => {
+        if(gameStat != "over") {
+            text.innerText = "You ran out of time!"
+            gameStat = "over"
+        }
+    }, TIME_LIMIT * 1000);
 }
 
 init();
 
 function animate() {
+    if(gameStat == "over") return;
     renderer.render( scene, camera );
     requestAnimationFrame( animate );
     player.update();
